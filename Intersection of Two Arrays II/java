@@ -1,0 +1,56 @@
+class Solution {
+       public int[] intersect(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map1 = new HashMap<>();
+        //key表示元素，value表示该元素出现次数
+        for (int i=0;i<nums1.length;i++){
+            int key = nums1[i];
+            if (map1.containsKey(key)) {
+                int value = map1.get(key);
+                value++;
+                map1.put(key, value);
+            } else {
+                map1.put(key, 1);
+            }
+        }
+
+        Map<Integer, Integer> map2 = new HashMap<>();
+        //key表示元素，value表示该元素出现次数
+        for (int i=0;i<nums2.length;i++){
+            int key = nums2[i];
+            if (map2.containsKey(key)) {
+                int value = map2.get(key);
+                value++;
+                map2.put(key, value);
+            } else {
+                map2.put(key, 1);
+            }
+        }
+
+        List<Integer> list = new ArrayList<>();
+        //可以优化，遍历短的map
+        for (Map.Entry<Integer, Integer> entry : map1.entrySet()) {
+            int key = entry.getKey();
+            if (map2.containsKey(key)) {
+                int value1 = entry.getValue();
+                int value2 = map2.get(key);
+                for (int i = 0; i < getMin(value1, value2); i++) {
+                    list.add(key);
+                }
+            }
+        }
+
+        int[] resultArr = new int[list.size()];
+        for(int j=0;j<resultArr.length;j++) {
+            resultArr[j] = list.get(j);
+        }
+        return resultArr;
+    }
+
+    public int getMin(int v1, int v2) {
+        if (v1 >= v2) {
+            return v2;
+        } else {
+            return v1;
+        }
+    }
+}
